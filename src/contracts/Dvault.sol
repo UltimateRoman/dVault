@@ -21,6 +21,6 @@ contract Dvault {
         require(bytes(_cid).length > 0);
         require(bytes(_description).length > 0);
         ucount++;
-        users[ucount] = User(_id, _cid, _name, false, msg.sender, _desc);
+        users[ucount] = User(_id, _cid, _name, msg.sender, false, _desc);
     }
 }
