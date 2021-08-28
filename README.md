@@ -10,6 +10,10 @@ dVault is a decentralized system to issue and validate digital academic certific
 
 Blockchain technology enables keeping of public records (from the viewer side) of educational accomplishments that can be easily verified and accessible (from the issuer side) to many educational institutions in a decentralized manner.
 
+<br/>
+
+#### [Contract deployment on Celo Alfajores Testnet](https://alfajores-blockscout.celo-testnet.org/address/0xA2E93648f68Aeb2983D1610F309f7d07Eb7A04b3)
+
 ### Advantages of dVault
 - Transparent and secure Authenticity Verification and Issuing of certificates, powered by Blockchain technology.
 - Eliminates paper-based records.
