@@ -58,13 +58,15 @@ contract Dvault {
         certificates[_id] = cert;        
     }
 
-    function verifyCertificate(string memory _uid) external view returns(bool) {
+    function verifyCertificate(string memory _uid) external view returns(bool, uint) {
         bool valid = false;
-        for(uint i=0; i <= cCount; ++i) {
+        uint id = 0;
+        for(uint i = 1; i <= cCount; ++i) {
             if(keccak256(abi.encodePacked(certificates[i].uid)) == keccak256(abi.encodePacked(_uid))) {
                 valid = certificates[i].isValid;
+                id = i;
             } 
         }
-        return valid;
+        return (valid, id);
     }
 }

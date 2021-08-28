@@ -45,9 +45,12 @@ class App extends Component {
       const cCount = await dvault.methods.cCount.call()
       for (let i = 1; i <= cCount; i++) {
         const cert = await dvault.methods.certificates(i).call()
+        this.setState({
+          cerificates: [...this.state.certificates, cert]
+        })
         if ((cert.issuer === this.state.account || cert.recipient === this.state.account) && (cert.isValid === true)) {
           this.setState({
-            certificates: [...this.state.certificates, cert]
+            myCertificates: [...this.state.myCertificates, cert]
           })
         }
       }
@@ -57,6 +60,55 @@ class App extends Component {
     }
   }
 
+  createUser(name, type) {
+    this.setState({ loading: true })
+    this.state.dvault.methods.createUser(name, type).send({ from: this.state.account })
+    .once('confirmation', (n, receipt) => {
+      this.setState({ loading: false })
+      window.location.reload()
+    })
+  }
+
+  async issueCertificate(url, recipient, desc) {
+    this.setState({ loading: true })
+    const uid = await this.state.dvault.methods.issueCertificate(url, recipient, desc).send({ from: this.state.account })
+    .once('confirmation', (n, receipt) => {
+      this.setState({ loading: false })
+      window.location.reload()
+    })
+    if(uid) {
+      window.alert("Certificate succesfully issued. Unique ID: " + uid)
+    }
+    else {
+      window.alert("Error occurred! Please try again.")
+    }
+  }
+
+  revokeCertificate(id) {
+    this.setState({ loading: true })
+    this.state.dvault.methods.revokeCertificate(id).send({ from: this.state.account })
+    .once('confirmation', (n, receipt) => {
+      this.setState({ loading: false })
+      window.location.reload()
+    })
+  }
+
+  async verifyCertificate(uid) {
+    this.setState({ loading: true })
+    const res = await this.state.dvault.methods.verifyCertificate(uid).send({ from: this.state.account })
+    .once('confirmation', (n, receipt) => {
+      this.setState({ loading: false })
+      window.location.reload()
+    })
+    if(res[0]) {
+      window.alert("Valid certificate")
+    }
+    else {
+      window.alert("Invalid certificate")
+    }
+  }
+
+
   constructor(props) {
     super(props)
     this.state = {
@@ -64,6 +116,7 @@ class App extends Component {
       dvault: null,
       users: [],
       certificates: [],
+      myCertificates: [],
       loading: true
     }
   }
