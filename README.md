@@ -17,3 +17,37 @@ Blockchain technology enables keeping of public records (from the viewer side) o
 - Non-Tamperable certificates.
 - Reliable and Trustworthy.
 
+## Run the dVault DApp
+
+### Install Dependencies
+
+Node JS - [node](https://nodejs.org/en/download/)
+
+Celo Extension Wallet and set Alfajores Test Network.
+
+### Clone the repo
+
+$ git clone https://https://github.com/UltimateRoman/dVault
+
+$ cd dVault
+
+
+### Install Truffle and other dependencies
+
+$ npm install -g truffle
+
+$ npm install
+
+
+- Create a .secret file in the root directory of the repo and enter your Celo account private key.
+
+
+### Migrate and Run the DApp
+
+$ truffle migrate --reset --network alfajores
+
+$ npm start
+
+
+- Visit localhost:3000 and connect your Celo extension wallet account.
+- Enjoy the dVault experience!
