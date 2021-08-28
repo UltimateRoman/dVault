@@ -51,6 +51,13 @@ contract Dvault {
         return uid;
     }
 
+    function revokeCertificate(uint _id) external {
+        Certificate memory cert = certificates[_id];
+        require(cert.issuer == msg.sender);
+        cert.isValid = false;
+        certificates[_id] = cert;        
+    }
+
     function verifyCertificate(string memory _uid) external view returns(bool) {
         bool valid = false;
         for(uint i=0; i <= cCount; ++i) {
