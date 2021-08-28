@@ -7,6 +7,7 @@ import { HalfCircleSpinner } from 'react-epic-spinners';
 import Home from './Home'
 import Issue from './Issue'
 import Certificate from './Certificate'
+import Navbar from './Navbar'
 
 
 class App extends Component {
@@ -78,17 +79,16 @@ class App extends Component {
     this.setState({ loading: true })
     this.state.dvault.methods.issueCertificate(url, recipient, desc).send({ from: this.state.account })
     .once('confirmation', (n, receipt) => {
+      uid = receipt["events"]["generatedCertificate"].returnValues.uid
+      if(uid) {
+        window.alert("Certificate successfully issued. Unique ID: " + uid)
+      }
+      else {
+        window.alert("Unsuccessful, please try again.")
+      }
       this.setState({ loading: false })
       window.location.reload()
     })
-    .then((uid)=>{
-    if(uid) {
-      window.alert("Certificate succesfully issued. Unique ID: " + uid)
-    }
-    else {
-      window.alert("Error occurred! Please try again.")
-    }
-  })
   }
 
   revokeCertificate(id) {
@@ -128,6 +128,7 @@ class App extends Component {
     return (
       <div style={{ height: 800 }}>
         <Router>
+          <Navbar />
           <Route exact path="/" render={props => (
             <React.Fragment>
               {

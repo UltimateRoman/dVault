@@ -24,6 +24,8 @@ contract Dvault {
         string desc;
     }
 
+    event generatedCertificate(string uid);
+
     function createUser(string memory _name, string memory _type) external {
         uCount++;
         users[uCount] = User(uCount, msg.sender, _name, _type);
@@ -41,14 +43,14 @@ contract Dvault {
         return string(bytesArray);
     }
 
-    function issueCertificate(string memory _url, address _recipient, string memory _desc) external returns(string memory) {
+    function issueCertificate(string memory _url, address _recipient, string memory _desc) external {
         require(bytes(_url).length > 0);
         require(bytes(_desc).length > 0);
 
         cCount++;
         string memory uid = bytes32ToString(keccak256(abi.encodePacked(cCount)));
         certificates[cCount] = Certificate(cCount, uid, _url, msg.sender, _recipient, true, _desc);
-        return uid;
+        emit generatedCertificate(uid);
     }
 
     function revokeCertificate(uint _id) external {
