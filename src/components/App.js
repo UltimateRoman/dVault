@@ -46,7 +46,7 @@ class App extends Component {
       for (let i = 1; i <= cCount; i++) {
         const cert = await dvault.methods.certificates(i).call()
         this.setState({
-          cerificates: [...this.state.certificates, cert]
+          certificates: [...this.state.certificates, cert]
         })
         if ((cert.issuer === this.state.account || cert.recipient === this.state.account) && (cert.isValid === true)) {
           this.setState({
