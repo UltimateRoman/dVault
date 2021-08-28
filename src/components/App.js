@@ -154,7 +154,7 @@ class App extends Component {
                 {
                   this.state.loading
                     ? <div class="center"><HalfCircleSpinner size="100" color="red" /></div>
-                    : <Certificate myCertificates={this.state.myCertificates} revokeCertificate={this.revokeCertificate} />
+                    : <Certificate users={this.state.users} account={this.state.account} myCertificates={this.state.myCertificates} revokeCertificate={this.revokeCertificate} />
                 }
               </React.Fragment>
           )} />

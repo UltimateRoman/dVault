@@ -104,7 +104,7 @@ class Issue extends Component {
             </WhiteTextTypography>
           </Typography>
           <br/>
-          <h2>Issuing Name: {this.state.user.name}</h2>
+          <h2>Issuing Institution: {this.state.user.name}</h2>
           <br/><br/>
 
           <center>

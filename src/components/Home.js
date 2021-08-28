@@ -11,6 +11,8 @@ class Home extends Component {
                 <h3 style={{textAlign: "center", color: "blue"}}>By Team Galaxy Stars</h3>
                 <br></br>
                 <img src={logo} alt="logo"/>
+
+                
             </React.Fragment>
         );
     }
