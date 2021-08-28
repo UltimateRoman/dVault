@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../logo.png';
 
 
 function Home() {
@@ -8,7 +9,8 @@ function Home() {
             <h1 style={{textAlign: "center", color: "black", fontSize:"70px"}}>dVault</h1>
             <br/>
             <h3 style={{textAlign: "center", color: "blue"}}>By Team Galaxy Stars</h3>
-                <br></br>
+            <br></br>
+            <img src={logo} alt="logo"/>
         </React.Fragment>
     );
 }

@@ -4,8 +4,11 @@ import Dvault from '../abis/Dvault.json';
 import './App.css';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import { HalfCircleSpinner } from 'react-epic-spinners';
-import Issue from './Issue'
 import Home from './Home'
+import Issue from './Issue'
+import Certificate from './Certificate'
+
+
 class App extends Component {
 
   async componentWillMount() {
@@ -71,9 +74,9 @@ class App extends Component {
     })
   }
 
-  async issueCertificate(url, recipient, desc) {
+  issueCertificate(url, recipient, desc) {
     this.setState({ loading: true })
-    await this.state.dvault.methods.issueCertificate(url, recipient, desc).send({ from: this.state.account })
+    this.state.dvault.methods.issueCertificate(url, recipient, desc).send({ from: this.state.account })
     .once('confirmation', (n, receipt) => {
       this.setState({ loading: false })
       window.location.reload()
@@ -99,17 +102,8 @@ class App extends Component {
 
   async verifyCertificate(uid) {
     this.setState({ loading: true })
-    const res = await this.state.dvault.methods.verifyCertificate(uid).send({ from: this.state.account })
-    .once('confirmation', (n, receipt) => {
-      this.setState({ loading: false })
-      window.location.reload()
-    })
-    if(res[0]) {
-      window.alert("Valid certificate")
-    }
-    else {
-      window.alert("Invalid certificate")
-    }
+    const res = await this.state.dvault.methods.verifyCertificate(uid).call()
+    return res
   }
 
 
@@ -123,6 +117,7 @@ class App extends Component {
       myCertificates: [],
       loading: false
     }
+
     this.createUser = this.createUser.bind(this)
     this.issueCertificate = this.issueCertificate.bind(this)
     this.revokeCertificate = this.revokeCertificate.bind(this)
@@ -131,44 +126,37 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ height: 800 }}>
         <Router>
-        <Route exact path="/" render={props => (
+          <Route exact path="/" render={props => (
             <React.Fragment>
               {
                 this.state.loading
                   ? <div class="center"><HalfCircleSpinner size="100" color="red" /></div>
-                  : <Home account={this.state.account} />
+                  : <Home account={this.state.account} certificates={this.state.certificates} verifyCertificate={this.verifyCertificate} />
               }
             </React.Fragment>
-          )} />     
+          )} />
+
           <Route exact path="/issue" render={props => (
               <React.Fragment>
                 {
                   this.state.loading
                     ? <div class="center"><HalfCircleSpinner size="100" color="red" /></div>
-                    : <Issue issueCertificate={this.issueCertificate}/>
+                    : <Issue users={this.state.users} account={this.state.account} issueCertificate={this.issueCertificate} />
                 }
               </React.Fragment>
           )} />
-          {/* <Route exact path="/works" render={props => (
+   
+          <Route exact path="/certificates" render={props => (
               <React.Fragment>
                 {
                   this.state.loading
                     ? <div class="center"><HalfCircleSpinner size="100" color="red" /></div>
-                    : <Works works={this.state.works} buyWork={this.buyWork}/>
+                    : <Certificate myCertificates={this.state.myCertificates} revokeCertificate={this.revokeCertificate} />
                 }
               </React.Fragment>
-          )} />  
-          <Route exact path="/Mytokens" render={props => (
-              <React.Fragment>
-                {
-                  this.state.loading
-                    ? <div class="center"><HalfCircleSpinner size="100" color="red" /></div>
-                    : <Mytokens mytokens={this.state.mytokens} />
-                }
-              </React.Fragment>
-          )} />  */}
+          )} />
           </Router>
       </div>
     );
