@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {
   Card,
@@ -82,7 +81,7 @@ class Issue extends Component {
     this.setState({type: event.target.value});
   }
 
-  componentWillMount() {
+  componentWillReceiveProps() {
     this.props.users.map((user) => {
         if(user.userAddress==this.props.account) {
             this.setState({ isUser: true })
@@ -98,6 +97,7 @@ class Issue extends Component {
       return (
         <React.Fragment>
           <br/><br/>          
+          <center>
           <Typography component="h1" variant="h1" align="center" color="inherit" gutterBottom>
             <WhiteTextTypography variant="h1">
               Issue New Certificate
@@ -150,24 +150,28 @@ class Issue extends Component {
             </div>
           </div>
           </center>
+          </center>
         </React.Fragment>
         );
     } else {
 
       return(
-        <div className="center">
-          <center>
-            <h1 style={{color: 'white'}}><strong>dVault</strong></h1>
-            </center>
         
+        <div >
+         
+          <center>
+            <br/><br/>
+            <h1 style={{color: 'white'}}><strong>dVault</strong></h1>
+            
+            <br/><br/>
+            <Typography component="h1" variant="h5">
+                <h1 style={{color: 'white'}}>Register New Institution/Student</h1>                    
+            </Typography>
+            </center>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+                
                 <div style={{marginTop: 80, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    
-                    <Typography component="h1" variant="h5">
-                        <h1 style={{color: 'white'}}>Register New Institution/Student</h1>                    
-                    </Typography>
-
                   <Card style={{ padding: "5px", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}>
                   
                   <CardContent>
@@ -178,6 +182,7 @@ class Issue extends Component {
                       const name = this.nameinput.current.value
                       this.props.createUser(name, type)
                     }}>
+                      <center>
                       <div class="form-group mx-sm-5 mb-2">
                         <Select
                           labelId="demo-simple-select-label"
@@ -196,9 +201,11 @@ class Issue extends Component {
                       <br/>
 
                       <button type="submit" class="btn btn-info mb-3">Register</button>
+                      </center>
                     </form>
                   </CardContent>
                 </Card>
+                
                 </div>
 
             </Container>

@@ -11,15 +11,17 @@ class Certificate extends Component {
         }
     }
 
-    componentWillMount() {
+    componentWillReceiveProps() {
         this.props.users.map((user) => {
             if(user.userAddress==this.props.account) {
-                if(user.type == "Institution") {
-                    this.setState({ isInstitution: true })
+                console.log(user)
+                if(user.userType == "Institution") {
+                    this.setState({isInstitution: true })
                 }
             }
           }
         )
+        console.log(this.props.myCertificates)
     }    
 
     render() {
@@ -41,6 +43,7 @@ class Certificate extends Component {
                                                 {cert.desc}
                                             </Card.Text>
                                             <a href={cert.url} target="_blank" rel="noopener noreferrer"><p class="badge badge-primary">View Certificate</p></a>
+                                            <br/><br/>
                                             <Button
                                                 variant="danger"
                                                 name={cert.id}
@@ -58,7 +61,10 @@ class Certificate extends Component {
                     </div>
                 </div>
             );
-        } else {
+        } 
+        else
+         {
+             return(
             <div className="container-fluid mt-5" style={{ textAlign: 'center' }}>
                 <div className="row">
                     <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ margin: '0% 15%' }}>
@@ -82,6 +88,7 @@ class Certificate extends Component {
                     </main>
                 </div>
             </div>
+             );
         }
     }
 }

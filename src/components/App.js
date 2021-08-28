@@ -49,21 +49,25 @@ class App extends Component {
       }
 
       const cCount = await dvault.methods.cCount.call()
-      for (let i = 1; i <= cCount; i++) {
-        const cert = await dvault.methods.certificates(i).call()
+      for (let j = 1; j <= cCount; j++) {
+        console.log(cCount.toString())
+        const certificate = await dvault.methods.certificates(j).call()
+        
         this.setState({
-          certificates: [...this.state.certificates, cert]
+          certificates: [...this.state.certificates, certificate]
         })
-        if ((cert.issuer === this.state.account || cert.recipient === this.state.account) && (cert.isValid === true)) {
+        if ((certificate.issuer === this.state.account || certificate.recipient === this.state.account) && (certificate.isValid)) {
           this.setState({
-            myCertificates: [...this.state.myCertificates, cert]
+            myCertificates: [...this.state.myCertificates, certificate]
           })
         }
       }
-      this.setState({ loading: false })
+      
+       this.setState({ loading: false })
     } else {
       window.alert('Contract could not be deployed.')
     }
+    console.log("hi")
   }
 
   createUser(name, type) {
@@ -79,13 +83,8 @@ class App extends Component {
     this.setState({ loading: true })
     this.state.dvault.methods.issueCertificate(url, recipient, desc).send({ from: this.state.account })
     .once('confirmation', (n, receipt) => {
-      uid = receipt["events"]["generatedCertificate"].returnValues.uid
-      if(uid) {
-        window.alert("Certificate successfully issued. Unique ID: " + uid)
-      }
-      else {
-        window.alert("Unsuccessful, please try again.")
-      }
+      window.alert("Certificate successfully issued")
+
       this.setState({ loading: false })
       window.location.reload()
     })
@@ -103,6 +102,7 @@ class App extends Component {
   async verifyCertificate(uid) {
     this.setState({ loading: true })
     const res = await this.state.dvault.methods.verifyCertificate(uid).call()
+    this.setState({ loading: false })
     return res
   }
 
@@ -144,7 +144,7 @@ class App extends Component {
                 {
                   this.state.loading
                     ? <div class="center"><HalfCircleSpinner size="100" color="red" /></div>
-                    : <Issue users={this.state.users} account={this.state.account} issueCertificate={this.issueCertificate} />
+                    : <Issue users={this.state.users} account={this.state.account} createUser={this.createUser} issueCertificate={this.issueCertificate} />
                 }
               </React.Fragment>
           )} />
